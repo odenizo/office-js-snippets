@@ -12,9 +12,9 @@ script:
         function prependText() {
           /* This snippet adds text to the beginning of the message or appointment's body. 
             
-            When prepending a link in HTML markup to the body, you can disable the online link preview by setting the anchor tag's id attribute to "LPNoLP". For example, '<a id="LPNoLP" href="http://www.contoso.com">Click here!</a>'.
+            When prepending a link in HTML markup to the body, you can disable the online link preview by setting the anchor tag's id attribute to "LPNoLP". For example, '<a id="LPNoLP" href="https://www.contoso.com">Click here!</a>'.
           */
-          const text = $("#text-field").val();
+          const text = $("#text-field").val().toString();
 
           // It's recommended to call getTypeAsync and pass its returned value to the options.coercionType parameter of the prependAsync call.
           Office.context.mailbox.item.body.getTypeAsync((asyncResult) => {
@@ -37,12 +37,12 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p class="ms-font-m">This sample adds text to the beginning of the message or appointment's body.</p>
             <p><b>Required mode</b>: Compose</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <div class="ms-TextField">
                 <label class="ms-Label">Enter text to prepend to the body: </label>
@@ -71,8 +71,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

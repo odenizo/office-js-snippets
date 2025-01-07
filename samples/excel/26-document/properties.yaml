@@ -52,7 +52,7 @@ script:
 
                 // Write the document properties to the console.
                 // To learn how to view document properties in the UI, 
-                // see https://support.office.com/article/View-or-change-the-properties-for-an-Office-file-21D604C2-481E-4379-8E54-1DD4622C6B75
+                // see https://support.microsoft.com/office/21D604C2-481E-4379-8E54-1DD4622C6B75
                 console.log("Author: " + docProperties.author);
                 console.log("Last author : " + docProperties.lastAuthor);
                 console.log("Revision number: " + docProperties.revisionNumber);
@@ -91,7 +91,7 @@ script:
 
                 // Write the custom document properties to the console.
                 // To learn how to view document properties in the UI, 
-                // see https://support.office.com/article/View-or-change-the-properties-for-an-Office-file-21D604C2-481E-4379-8E54-1DD4622C6B75
+                // see https://support.microsoft.com/office/21D604C2-481E-4379-8E54-1DD4622C6B75
                 console.log("Custom key  : " + customProperty.key);  
                 console.log("Custom value : " + customProperty.value); 
 
@@ -124,36 +124,36 @@ script:
     language: typescript
 template:
     content: |+
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to set and get document properties.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <button id="set-doc-properties" class="ms-Button">
                 <span class="ms-Button-label">Set document properties</span>
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <button id="get-doc-properties" class="ms-Button">
                 <span class="ms-Button-label">Get document properties</span>
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <button id="set-custom-doc-properties" class="ms-Button">
                 <span class="ms-Button-label">Set custom document properties</span>
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <button id="get-custom-doc-properties" class="ms-Button">
                 <span class="ms-Button-label">Get custom document properties</span>
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <button id="get-count-custom-doc-properties" class="ms-Button">
                 <span class="ms-Button-label">Get count of custom document properties</span>
             </button>
@@ -177,8 +177,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

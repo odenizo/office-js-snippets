@@ -18,7 +18,7 @@ script:
         async function insertContentControls() {
           // Traverses each paragraph of the document and wraps a content control on each.
           await Word.run(async (context) => {
-            const paragraphs = context.document.body.paragraphs;
+            const paragraphs: Word.ParagraphCollection = context.document.body.paragraphs;
             paragraphs.load("$none"); // Don't need any properties; just wrap each paragraph with a content control.
 
             await context.sync();
@@ -36,7 +36,7 @@ script:
 
         async function registerEventHandlers() {
           await Word.run(async (context) => {
-            const contentControls = context.document.contentControls;
+            const contentControls: Word.ContentControlCollection = context.document.contentControls;
             contentControls.load("items");
             await context.sync();
 
@@ -58,22 +58,20 @@ script:
 
         async function contentControlDeleted(event: Word.ContentControlDeletedEventArgs) {
           await Word.run(async (context) => {
-            console.log(`${event.eventType} event detected. IDs of content controls that were deleted:`);
-            console.log(event.ids);
+            console.log(`${event.eventType} event detected. IDs of content controls that were deleted:`, event.ids);
           });
         }
 
         async function deleteContentControl() {
           await Word.run(async (context) => {
-            const contentControls = context.document.contentControls.getByTag("forTesting");
+            const contentControls: Word.ContentControlCollection = context.document.contentControls.getByTag("forTesting");
             contentControls.load("items");
             await context.sync();
 
             if (contentControls.items.length === 0) {
               console.log("There are no content controls in this document.");
             } else {
-              console.log("Control to be deleted:");
-              console.log(contentControls.items[0]);
+              console.log("Control to be deleted:", contentControls.items[0]);
               contentControls.items[0].delete(false);
               await context.sync();
             }
@@ -97,18 +95,18 @@ script:
 
         async function setup() {
           await Word.run(async (context) => {
-            const body = context.document.body;
+            const body: Word.Body = context.document.body;
             body.clear();
-            body.insertParagraph("One more paragraph. ", "Start");
-            body.insertParagraph("Inserting another paragraph. ", "Start");
+            body.insertParagraph("One more paragraph.", "Start");
+            body.insertParagraph("Inserting another paragraph.", "Start");
             body.insertParagraph(
-              "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document.",
+              "Do you want to create a solution that extends the functionality of Word? You can use the Office Add-ins platform to extend Word clients running on the web, on a Windows desktop, or on a Mac.",
               "Start"
             );
             body.paragraphs
               .getLast()
               .insertText(
-                "To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries. ",
+                "Use add-in commands to extend the Word UI and launch task panes that run JavaScript that interacts with the content in a Word document. Any code that you can run in a browser can run in a Word add-in. Add-ins that interact with content in a Word document create requests to act on Word objects and synchronize object state.",
                 "Replace"
               );
           });
@@ -126,18 +124,18 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             This sample demonstrates how to use the onDeleted event on content controls.
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <button id="setup" class="ms-Button">
             <span class="ms-Button-label">Setup</span>
           </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <span class="ms-font-m">Insert content controls.</span>
             <button id="insert-content-controls" class="ms-Button">
@@ -174,8 +172,8 @@ libraries: |-
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

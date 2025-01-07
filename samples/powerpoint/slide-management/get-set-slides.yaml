@@ -23,7 +23,7 @@ script:
             const allSlidesCount = context.presentation.slides.getCount();
             context.presentation.slides.load("items");
             await context.sync();
-            let allSlideItems = context.presentation.slides.items;
+            let allSlideItems: PowerPoint.Slide[] = context.presentation.slides.items;
             allSlideItems.map((slide, index) => {
               allSlidesList[slide.id] = `Slide ${index + 1}`;
             });
@@ -31,7 +31,7 @@ script:
             if ($("#id-check-usenative").is(":checked")) {
               context.presentation.load("tags");
             }
-            const slides = context.presentation.getSelectedSlides();
+            const slides: PowerPoint.SlideScopedCollection = context.presentation.getSelectedSlides();
             const slideCount = slides.getCount();
             slides.load("items");
             await context.sync();
@@ -51,7 +51,7 @@ script:
           await PowerPoint.run(async (context) => {
             context.presentation.load("slides");
             await context.sync();
-            const slides = context.presentation.getSelectedSlides();
+            const slides: PowerPoint.SlideScopedCollection = context.presentation.getSelectedSlides();
             const slideCount = slides.getCount();
             slides.load("items");
             await context.sync();
@@ -66,9 +66,9 @@ script:
           await PowerPoint.run(async (context) => {
             context.presentation.load("slides");
             await context.sync();
-            const slide2 = context.presentation.slides.getItemAt(1);
-            const slide4 = context.presentation.slides.getItemAt(3);
-            const slide5 = context.presentation.slides.getItemAt(4);
+            const slide2: PowerPoint.Slide = context.presentation.slides.getItemAt(1);
+            const slide4: PowerPoint.Slide = context.presentation.slides.getItemAt(3);
+            const slide5: PowerPoint.Slide = context.presentation.slides.getItemAt(4);
             slide2.load("id");
             slide4.load("id");
             slide5.load("id");
@@ -91,7 +91,7 @@ script:
             let finalTable = "";
             context.presentation.load("slides");
             await context.sync();
-            const slides = context.presentation.getSelectedSlides();
+            const slides: PowerPoint.SlideScopedCollection = context.presentation.getSelectedSlides();
             const slideCount = slides.getCount();
             await context.sync();
             finalTable += "<br>getSelectedSlides.getCount returned:<b>" + slideCount.value + "</b><br>";
@@ -130,11 +130,11 @@ script:
     language: typescript
 template:
     content: |
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to get selected slides, and how to select specific slides.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
           <button id="getSelectedSlides" class="ms-Button"><span class="ms-Button-label">Get selected slides</span></button>
           <br><button id="setSelectedSlides" class="ms-Button"><span class="ms-Button-label">Set selection to slides 2, 4, and 5</span></button>
@@ -168,8 +168,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

@@ -19,9 +19,9 @@ script:
         async function rangeInsertDateField() {
           // Inserts a Date field before selection.
           await Word.run(async (context) => {
-            var range = context.document.getSelection().getRange();
+            const range: Word.Range = context.document.getSelection().getRange();
 
-            const field = range.insertField(Word.InsertLocation.before, Word.FieldType.date, '\\@ "M/d/yyyy h:mm am/pm"', true);
+            const field: Word.Field = range.insertField(Word.InsertLocation.before, Word.FieldType.date, '\\@ "M/d/yyyy h:mm am/pm"', true);
 
             field.load("result,code");
             await context.sync();
@@ -29,8 +29,7 @@ script:
             if (field.isNullObject) {
               console.log("There are no fields in this document.");
             } else {
-              console.log("Code of the field: " + field.code);
-              console.log("Result of the field: " + JSON.stringify(field.result));
+              console.log("Code of the field: " + field.code, "Result of the field: " + JSON.stringify(field.result));
             }
           });
         }
@@ -38,7 +37,7 @@ script:
         async function getFirstField() {
           // Gets the first field in the document.
           await Word.run(async (context) => {
-            const field = context.document.body.fields.getFirstOrNullObject();
+            const field: Word.Field = context.document.body.fields.getFirstOrNullObject();
             field.load(["code", "result", "locked", "type", "data", "kind"]);
 
             await context.sync();
@@ -46,11 +45,7 @@ script:
             if (field.isNullObject) {
               console.log("This document has no fields.");
             } else {
-              console.log("Code of first field: " + field.code);
-              console.log("Result of first field: " + JSON.stringify(field.result));
-              console.log("Type of first field: " + field.type);
-              console.log("Is the first field locked? " + field.locked);
-              console.log("Kind of the first field: " + field.kind);
+              console.log("Code of first field: " + field.code, "Result of first field: " + JSON.stringify(field.result), "Type of first field: " + field.type, "Is the first field locked? " + field.locked, "Kind of the first field: " + field.kind);
             }
           });
         }
@@ -58,7 +53,7 @@ script:
         async function getParentBodyOfFirstField() {
           // Gets the parent body of the first field in the document.
           await Word.run(async (context) => {
-            const field = context.document.body.fields.getFirstOrNullObject();
+            const field: Word.Field = context.document.body.fields.getFirstOrNullObject();
             field.load("parentBody/text");
 
             await context.sync();
@@ -66,7 +61,7 @@ script:
             if (field.isNullObject) {
               console.log("This document has no fields.");
             } else {
-              const parentBody = field.parentBody;
+              const parentBody: Word.Body = field.parentBody;
               console.log("Text of first field's parent body: " + JSON.stringify(parentBody.text));
             }
           });
@@ -75,7 +70,7 @@ script:
         async function getAllFields() {
           // Gets all fields in the document body.
           await Word.run(async (context) => {
-            const fields = context.document.body.fields.load("items");
+            const fields: Word.FieldCollection = context.document.body.fields.load("items");
 
             await context.sync();
 
@@ -86,8 +81,7 @@ script:
               await context.sync();
 
               for (let i = 0; i < fields.items.length; i++) {
-                console.log(`Field ${i + 1}'s code: ${fields.items[i].code}`);
-                console.log(`Field ${i + 1}'s result: ${JSON.stringify(fields.items[i].result)}`);
+                console.log(`Field ${i + 1}'s code: ${fields.items[i].code}`, `Field ${i + 1}'s result: ${JSON.stringify(fields.items[i].result)}`);
               }
             }
           });
@@ -96,7 +90,7 @@ script:
         async function getSelectedFieldAndUpdate() {
           // Gets and updates the first field in the selection.
           await Word.run(async (context) => {
-            var field = context.document.getSelection().fields.getFirstOrNullObject();
+            let field = context.document.getSelection().fields.getFirstOrNullObject();
             field.load(["code", "result", "type", "locked"]);
 
             await context.sync();
@@ -104,9 +98,7 @@ script:
             if (field.isNullObject) {
               console.log("No field in selection.");
             } else {
-              console.log("Before updating:");
-              console.log("Code of first field: " + field.code);
-              console.log("Result of first field: " + JSON.stringify(field.result));
+              console.log("Before updating:", "Code of first field: " + field.code, "Result of first field: " + JSON.stringify(field.result));
 
               field.updateResult();
               field.select();
@@ -115,9 +107,7 @@ script:
               field.load(["code", "result"]);
               await context.sync();
 
-              console.log("After updating:");
-              console.log("Code of first field: " + field.code);
-              console.log("Result of first field: " + JSON.stringify(field.result));
+              console.log("After updating:", "Code of first field: " + field.code, "Result of first field: " + JSON.stringify(field.result));
             }
           });
         }
@@ -125,7 +115,7 @@ script:
         async function getFieldAndLockOrUnlock() {
           // Gets the first field in the selection and toggles between setting it to locked or unlocked.
           await Word.run(async (context) => {
-            var field = context.document.getSelection().fields.getFirstOrNullObject();
+            let field = context.document.getSelection().fields.getFirstOrNullObject();
             field.load(["code", "result", "type", "locked"]);
             await context.sync();
 
@@ -144,7 +134,7 @@ script:
         async function deleteFirstField() {
           // Deletes the first field in the document.
           await Word.run(async (context) => {
-            const field = context.document.body.fields.getFirstOrNullObject();
+            const field: Word.Field = context.document.body.fields.getFirstOrNullObject();
             field.load();
 
             await context.sync();
@@ -162,10 +152,10 @@ script:
 
         async function setup() {
           await Word.run(async (context) => {
-            const body = context.document.body;
+            const body: Word.Body = context.document.body;
             body.clear();
             body.insertParagraph(
-              "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document.",
+              "Do you want to create a solution that extends the functionality of Word? You can use the Office Add-ins platform to extend Word clients running on the web, on a Windows desktop, or on a Mac.",
               "Start"
             );
           });
@@ -183,21 +173,21 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample demonstrates how to manage fields, which are placeholders for dynamic data in your document. To learn
                 more about fields, refer to <a target="_blank"
                     href="https://support.microsoft.com/office/c429bbb0-8669-48a7-bd24-bab6ba6b06bb">Insert, edit, and view
                     fields in Word</a>.</p>
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <button id="setup" class="ms-Button">
             <span class="ms-Button-label">Set up</span>
           </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <h4>Insert fields</h4>
             <p>First, select some text.</p>
@@ -252,8 +242,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

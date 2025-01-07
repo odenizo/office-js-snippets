@@ -22,37 +22,31 @@ script:
         async function getTableAlignment() {
           // Gets alignment details about the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
             firstTable.load(["alignment", "horizontalAlignment", "verticalAlignment"]);
             await context.sync();
 
-            console.log(`Details about the alignment of the first table:`);
-            console.log(`- Alignment of the table within the containing page column: ${firstTable.alignment}`);
-            console.log(`- Horizontal alignment of every cell in the table: ${firstTable.horizontalAlignment}`);
-            console.log(`- Vertical alignment of every cell in the table: ${firstTable.verticalAlignment}`);
+            console.log(`Details about the alignment of the first table:`, `- Alignment of the table within the containing page column: ${firstTable.alignment}`, `- Horizontal alignment of every cell in the table: ${firstTable.horizontalAlignment}`, `- Vertical alignment of every cell in the table: ${firstTable.verticalAlignment}`);
           });
         }
 
         async function getTableBorder() {
           // Gets border details about the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
             const borderLocation = Word.BorderLocation.top;
-            const border = firstTable.getBorder(borderLocation);
+            const border: Word.TableBorder = firstTable.getBorder(borderLocation);
             border.load(["type", "color", "width"]);
             await context.sync();
 
-            console.log(`Details about the ${borderLocation} border of the first table:`);
-            console.log(`- Color: ${border.color}`);
-            console.log(`- Type: ${border.type}`);
-            console.log(`- Width: ${border.width} points`);
+            console.log(`Details about the ${borderLocation} border of the first table:`, `- Color: ${border.color}`, `- Type: ${border.type}`, `- Width: ${border.width} points`);
           });
         }
 
         async function getTableCellPadding() {
           // Gets cell padding details about the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
             const cellPaddingLocation = Word.CellPaddingLocation.right;
             const cellPadding = firstTable.getCellPadding(cellPaddingLocation);
             await context.sync();
@@ -66,39 +60,34 @@ script:
         async function getTableRowAlignment() {
           // Gets content alignment details about the first row of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstTableRow = firstTable.rows.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstTableRow: Word.TableRow = firstTable.rows.getFirst();
             firstTableRow.load(["horizontalAlignment", "verticalAlignment"]);
             await context.sync();
 
-            console.log(`Details about the alignment of the first table's first row:`);
-            console.log(`- Horizontal alignment of every cell in the row: ${firstTableRow.horizontalAlignment}`);
-            console.log(`- Vertical alignment of every cell in the row: ${firstTableRow.verticalAlignment}`);
+            console.log(`Details about the alignment of the first table's first row:`, `- Horizontal alignment of every cell in the row: ${firstTableRow.horizontalAlignment}`, `- Vertical alignment of every cell in the row: ${firstTableRow.verticalAlignment}`);
           });
         }
 
         async function getTableRowBorder() {
           // Gets border details about the first row of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstTableRow = firstTable.rows.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstTableRow: Word.TableRow = firstTable.rows.getFirst();
             const borderLocation = Word.BorderLocation.bottom;
-            const border = firstTableRow.getBorder(borderLocation);
+            const border: Word.TableBorder = firstTableRow.getBorder(borderLocation);
             border.load(["type", "color", "width"]);
             await context.sync();
 
-            console.log(`Details about the ${borderLocation} border of the first table's first row:`);
-            console.log(`- Color: ${border.color}`);
-            console.log(`- Type: ${border.type}`);
-            console.log(`- Width: ${border.width} points`);
+            console.log(`Details about the ${borderLocation} border of the first table's first row:`, `- Color: ${border.color}`, `- Type: ${border.type}`, `- Width: ${border.width} points`);
           });
         }
 
         async function getTableRowCellPadding() {
           // Gets cell padding details about the first row of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstTableRow = firstTable.rows.getFirst();
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstTableRow: Word.TableRow = firstTable.rows.getFirst();
             const cellPaddingLocation = Word.CellPaddingLocation.bottom;
             const cellPadding = firstTableRow.getCellPadding(cellPaddingLocation);
             await context.sync();
@@ -112,39 +101,35 @@ script:
         async function getTableCellAlignment() {
           // Gets content alignment details about the first cell of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstCell = firstTable.getCell(0, 0);
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstTableRow: Word.TableRow = firstTable.rows.getFirst();
+            const firstCell: Word.TableCell = firstTableRow.cells.getFirst();
             firstCell.load(["horizontalAlignment", "verticalAlignment"]);
             await context.sync();
 
-            console.log(`Details about the alignment of the first table's first cell:`);
-            console.log(`- Horizontal alignment of the cell's content: ${firstCell.horizontalAlignment}`);
-            console.log(`- Vertical alignment of the cell's content: ${firstCell.verticalAlignment}`);
+            console.log(`Details about the alignment of the first table's first cell:`, `- Horizontal alignment of the cell's content: ${firstCell.horizontalAlignment}`, `- Vertical alignment of the cell's content: ${firstCell.verticalAlignment}`);
           });
         }
 
         async function getTableCellBorder() {
           // Gets border details about the first of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstCell = firstTable.getCell(0, 0);
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstCell: Word.TableCell = firstTable.getCell(0, 0);
             const borderLocation = "Left";
-            const border = firstCell.getBorder(borderLocation);
+            const border: Word.TableBorder = firstCell.getBorder(borderLocation);
             border.load(["type", "color", "width"]);
             await context.sync();
 
-            console.log(`Details about the ${borderLocation} border of the first table's first cell:`);
-            console.log(`- Color: ${border.color}`);
-            console.log(`- Type: ${border.type}`);
-            console.log(`- Width: ${border.width} points`);
+            console.log(`Details about the ${borderLocation} border of the first table's first cell:`, `- Color: ${border.color}`, `- Type: ${border.type}`, `- Width: ${border.width} points`);
           });
         }
 
         async function getTableCellCellPadding() {
           // Gets cell padding details about the first cell of the first table in the document.
           await Word.run(async (context) => {
-            const firstTable = context.document.body.tables.getFirst();
-            const firstCell = firstTable.getCell(0, 0);
+            const firstTable: Word.Table = context.document.body.tables.getFirst();
+            const firstCell: Word.TableCell = firstTable.getCell(0, 0);
             const cellPaddingLocation = "Left";
             const cellPadding = firstCell.getCellPadding(cellPaddingLocation);
             await context.sync();
@@ -182,18 +167,18 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             This sample shows how to get various formatting details about a table, a table row, and a table cell, including
             borders, alignment, and cell padding.
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <button id="setup" class="ms-Button">
               <span class="ms-Button-label">Add table</span>
           </button>
         </section>
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <h4>Table formatting</h4>
             <p>
@@ -250,8 +235,8 @@ libraries: |-
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

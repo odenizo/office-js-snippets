@@ -18,7 +18,7 @@ script:
         async function before() {
           await Word.run(async (context) => {
             // Let's insert before the first paragraph.
-            const range = context.document.body.paragraphs.getFirst().insertParagraph("This is Before", "Before");
+            const range: Word.Paragraph = context.document.body.paragraphs.getFirst().insertParagraph("This is Before", "Before");
             range.font.highlightColor = "yellow";
 
             await context.sync();
@@ -29,7 +29,7 @@ script:
           await Word.run(async (context) => {
             // This button assumes before() ran.
             // Get the next paragraph and insert text at the beginning. Note that there are invalid locations depending on the object. For instance, insertParagraph and "before" on a paragraph object is not a valid combination.
-            const range = context.document.body.paragraphs
+            const range: Word.Range = context.document.body.paragraphs
               .getFirst()
               .getNext()
               .insertText("This is Start", "Start");
@@ -43,7 +43,7 @@ script:
         async function end() {
           await Word.run(async (context) => {
             // Insert text at the end of a paragraph.
-            const range = context.document.body.paragraphs
+            const range: Word.Range = context.document.body.paragraphs
               .getFirst()
               .getNext()
               .insertText(" This is End", "End");
@@ -57,7 +57,7 @@ script:
         async function after() {
           await Word.run(async (context) => {
             // Insert a paragraph after an existing one.
-            const range = context.document.body.paragraphs
+            const range: Word.Paragraph = context.document.body.paragraphs
               .getFirst()
               .getNext()
               .insertParagraph("This is After", "After");
@@ -71,7 +71,7 @@ script:
         async function replace() {
           await Word.run(async (context) => {
             // Replace the last paragraph.
-            const range = context.document.body.paragraphs.getLast().insertText("Just replaced the last paragraph!", "Replace");
+            const range: Word.Range = context.document.body.paragraphs.getLast().insertText("Just replaced the last paragraph!", "Replace");
             range.font.highlightColor = "black";
             range.font.color = "white";
 
@@ -81,16 +81,16 @@ script:
 
         async function setup() {
           await Word.run(async (context) => {
-            const body = context.document.body;
+            const body: Word.Body = context.document.body;
             body.clear();
             body.insertParagraph(
-              "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document.",
+              "Do you want to create a solution that extends the functionality of Word? You can use the Office Add-ins platform to extend Word clients running on the web, on a Windows desktop, or on a Mac.",
               "Start"
             );
             body.paragraphs
               .getLast()
               .insertText(
-                "To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries.",
+                "Use add-in commands to extend the Word UI and launch task panes that run JavaScript that interacts with the content in a Word document. Any code that you can run in a browser can run in a Word add-in. Add-ins that interact with content in a Word document create requests to act on Word objects and synchronize object state.",
                 "Replace"
               );
           });
@@ -107,18 +107,18 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
           This sample demonstrates a variety of insert locations available in the API.
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <button id="setup" class="ms-Button">
                   <span class="ms-Button-label">Setup</span>
           </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
           <button id="before" class="ms-Button">
               <span class="ms-Button-label">Insert before</span>
@@ -154,8 +154,8 @@ libraries: |-
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

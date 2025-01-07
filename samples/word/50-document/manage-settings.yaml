@@ -20,7 +20,7 @@ script:
               .toString();
 
             if (key == "") {
-              console.error("Key shouldn't be empty");
+              console.error("Key shouldn't be empty.");
               return;
             }
 
@@ -28,25 +28,24 @@ script:
               .val()
               .toString();
 
-            const settings = context.document.settings;
-            const setting = settings.add(key, value);
+            const settings: Word.SettingCollection = context.document.settings;
+            const setting: Word.Setting = settings.add(key, value);
             setting.load();
             await context.sync();
 
-            console.log("Setting added or edited:");
-            console.log(setting);
+            console.log("Setting added or edited:", setting);
           });
         }
 
         async function getAllSettings() {
           // Gets all custom settings this add-in set on this document.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
+            const settings: Word.SettingCollection = context.document.settings;
             settings.load("items");
             await context.sync();
 
             if (settings.items.length == 0) {
-              console.log("There are no settings");
+              console.log("There are no settings.");
             } else {
               console.log("All settings:");
               for (let i = 0; i < settings.items.length; i++) {
@@ -59,10 +58,10 @@ script:
         async function deleteAllSettings() {
           // Deletes all custom settings this add-in had set on this document.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
+            const settings: Word.SettingCollection = context.document.settings;
             settings.deleteAll();
             await context.sync();
-            console.log("All settings deleted");
+            console.log("All settings deleted.");
           });
         }
 
@@ -78,13 +77,13 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to add, edit, get, and delete custom settings on a document. Settings created by an add-in
                 can
                 only be managed by that add-in.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <p>Add a new setting, or edit an existing one</p>
             <div class="ms-TextField">
@@ -125,8 +124,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

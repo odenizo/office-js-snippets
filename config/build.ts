@@ -170,8 +170,8 @@ async function processSnippets(processedSnippets: Dictionary<SnippetProcessedDat
 
     function validateProperFabric(snippet: ISnippet): void {
         const libs = snippet.libraries.split('\n').map(reference => reference.trim());
-        if (libs.indexOf('office-ui-fabric-js@1.4.0/dist/css/fabric.min.css') >= 0) {
-            if (libs.indexOf('office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css') <= 0) {
+        if (libs.indexOf('office-ui-fabric-core@11.1.0/dist/css/fabric.min.css') >= 0) {
+            if (libs.indexOf('office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css') <= 0) {
                 throw new Error('Fabric reference is specified, without a reference to a corresponding "fabric.components.min.css". Please add this second Fabric reference as well.');
             }
         }
@@ -363,11 +363,12 @@ async function processSnippets(processedSnippets: Dictionary<SnippetProcessedDat
 
         const defaultSubstitutions = {
             'jquery': 'jquery@3.1.1',
-            'office-ui-fabric-js/dist/js/fabric.min.js': 'office-ui-fabric-js@1.4.0/dist/js/fabric.min.js',
+            'office-ui-fabric-js/dist/js/fabric.min.js': 'office-ui-fabric-js@1.5.0/dist/js/fabric.min.js',
             '@microsoft/office-js-helpers/dist/office.helpers.min.js': '@microsoft/office-js-helpers@0.7.4/dist/office.helpers.min.js',
             'core-js/client/core.min.js': 'core-js@2.4.1/client/core.min.js',
-            'office-ui-fabric-js/dist/css/fabric.min.css': 'office-ui-fabric-js@1.4.0/dist/css/fabric.min.css',
-            'office-ui-fabric-js/dist/css/fabric.components.min.css': 'office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css'
+            'office-ui-fabric-core/dist/css/fabric.min.css': 'office-ui-fabric-core@11.1.0/dist/css/fabric.min.css',
+            'office-ui-fabric-js/dist/css/fabric.min.css': 'office-ui-fabric-core@11.1.0/dist/css/fabric.min.css',
+            'office-ui-fabric-js/dist/css/fabric.components.min.css': 'office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css'
         };
 
         let hadDefaultSubstitution = false;

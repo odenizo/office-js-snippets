@@ -85,7 +85,7 @@ script:
         async function setup() {
           await Word.run(async (context) => {
             // Set up text in the document body.
-            const body = context.document.body;
+            const body: Word.Body = context.document.body;
             body.clear();
             body.insertParagraph(
               "HeaderFooterType.firstPage applies the header or footer to the first page of the current section. HeaderFooterType.evenPages applies the header or footer to the even pages of the current section. By default, HeaderFooterType.primary applies the header or footer to all pages in the current section. However, if either or both options for FirstPage and EvenPages are set, Primary excludes those pages.",
@@ -93,17 +93,17 @@ script:
             );
             body.insertBreak(Word.BreakType.page, Word.InsertLocation.end);
             body.insertParagraph(
-              "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document.",
+              "Do you want to create a solution that extends the functionality of Word? You can use the Office Add-ins platform to extend Word clients running on the web, on a Windows desktop, or on a Mac.",
               "End"
             );
             body.insertBreak(Word.BreakType.page, Word.InsertLocation.end);
             body.insertParagraph(
-              "To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching Online cover page, header, and sidebar. Click Insert and then choose the Online elements you want from the different Online galleries.",
+              "Use add-in commands to extend the Word UI and launch task panes that run JavaScript that interacts with the content in a Word document. Any code that you can run in a browser can run in a Word add-in. Add-ins that interact with content in a Word document create requests to act on Word objects and synchronize object state.",
               "End"
             );
 
             // Clear any headers and footers.
-            const section = context.document.sections.getFirst();
+            const section: Word.Section = context.document.sections.getFirst();
 
             section.getHeader("Primary").clear();
             section.getHeader("FirstPage").clear();
@@ -127,11 +127,11 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             This sample inserts headers and footers in the document.
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <p>1. Set up sample text.
             <button id="setup" class="ms-Button">
@@ -141,7 +141,7 @@ template:
                 existing headers and footers</a> for details).
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <h4>Apply to all pages</h4>
             <button id="add-header" class="ms-Button">
@@ -188,8 +188,8 @@ libraries: |-
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

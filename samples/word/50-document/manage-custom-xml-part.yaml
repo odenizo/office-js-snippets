@@ -18,18 +18,17 @@ script:
           await Word.run(async (context) => {
             const originalXml =
               "<Reviewers><Reviewer>Juan</Reviewer><Reviewer>Hong</Reviewer><Reviewer>Sally</Reviewer></Reviewers>";
-            const customXmlPart = context.document.customXmlParts.add(originalXml);
+            const customXmlPart: Word.CustomXmlPart = context.document.customXmlParts.add(originalXml);
             customXmlPart.load("id");
             const xmlBlob = customXmlPart.getXml();
 
             await context.sync();
 
             const readableXml = addLineBreaksToXML(xmlBlob.value);
-            console.log("Added custom XML part:");
-            console.log(readableXml);
+            console.log("Added custom XML part:", readableXml);
 
             // Store the XML part's ID in a setting so the ID is available to other functions.
-            const settings = context.document.settings;
+            const settings: Word.SettingCollection = context.document.settings;
             settings.add("ContosoReviewXmlPartId", customXmlPart.id);
 
             await context.sync();
@@ -41,13 +40,13 @@ script:
           
           // Queries a custom XML part for elements matching the search terms.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
-            const xmlPartIDSetting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
+            const settings: Word.SettingCollection = context.document.settings;
+            const xmlPartIDSetting: Word.Setting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
 
             await context.sync();
 
             if (xmlPartIDSetting.value) {
-              const customXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
+              const customXmlPart: Word.CustomXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
               const xpathToQueryFor = "/Reviewers/Reviewer";
               const clientResult = customXmlPart.query(xpathToQueryFor, {
                 contoso: "http://schemas.contoso.com/review/1.0"
@@ -60,7 +59,7 @@ script:
                 console.log(clientResult.value[i]);
               }
             } else {
-              console.warn("Didn't find custom XML part to query");
+              console.warn("Didn't find custom XML part to query.");
             }
           });
         }
@@ -70,12 +69,12 @@ script:
           
           // Inserts an attribute into a custom XML part.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
-            const xmlPartIDSetting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
+            const settings: Word.SettingCollection = context.document.settings;
+            const xmlPartIDSetting: Word.Setting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
             await context.sync();
 
             if (xmlPartIDSetting.value) {
-              const customXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
+              const customXmlPart: Word.CustomXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
 
               // The insertAttribute method inserts an attribute with the given name and value into the element identified by the xpath parameter.
               customXmlPart.insertAttribute("/Reviewers", { contoso: "http://schemas.contoso.com/review/1.0" }, "Nation", "US");
@@ -83,10 +82,9 @@ script:
               await context.sync();
 
               const readableXml = addLineBreaksToXML(xmlBlob.value);
-              console.log("Successfully inserted attribute:");
-              console.log(readableXml);
+              console.log("Successfully inserted attribute:", readableXml);
             } else {
-              console.warn("Didn't find custom XML part to insert attribute into");
+              console.warn("Didn't find custom XML part to insert attribute into.");
             }
           });
         }
@@ -96,12 +94,12 @@ script:
           
           // Inserts an element into a custom XML part.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
-            const xmlPartIDSetting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
+            const settings: Word.SettingCollection = context.document.settings;
+            const xmlPartIDSetting: Word.Setting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
             await context.sync();
 
             if (xmlPartIDSetting.value) {
-              const customXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
+              const customXmlPart: Word.CustomXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
 
               // The insertElement method inserts the given XML under the parent element identified by the xpath parameter at the provided child position index.
               customXmlPart.insertElement(
@@ -114,10 +112,9 @@ script:
               await context.sync();
 
               const readableXml = addLineBreaksToXML(xmlBlob.value);
-              console.log("Successfully inserted element:");
-              console.log(readableXml);
+              console.log("Successfully inserted element:", readableXml);
             } else {
-              console.warn("Didn't find custom XML part to insert element into");
+              console.warn("Didn't find custom XML part to insert element into.");
             }
           });
         }
@@ -127,12 +124,12 @@ script:
           
           // Deletes a custom XML part.
           await Word.run(async (context) => {
-            const settings = context.document.settings;
-            const xmlPartIDSetting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
+            const settings: Word.SettingCollection = context.document.settings;
+            const xmlPartIDSetting: Word.Setting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
             await context.sync();
 
             if (xmlPartIDSetting.value) {
-              let customXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
+              let customXmlPart: Word.CustomXmlPart = context.document.customXmlParts.getItem(xmlPartIDSetting.value);
               const xmlBlob = customXmlPart.getXml();
               customXmlPart.delete();
               customXmlPart = context.document.customXmlParts.getItemOrNullObject(xmlPartIDSetting.value);
@@ -140,7 +137,7 @@ script:
               await context.sync();
 
               if (customXmlPart.isNullObject) {
-                console.log(`The XML part with the ID ${xmlPartIDSetting.value} has been deleted`);
+                console.log(`The XML part with the ID ${xmlPartIDSetting.value} has been deleted.`);
 
                 // Delete the associated setting too.
                 xmlPartIDSetting.delete();
@@ -148,11 +145,10 @@ script:
                 await context.sync();
               } else {
                 const readableXml = addLineBreaksToXML(xmlBlob.value);
-                const strangeMessage = `This is strange. The XML part with the id ${xmlPartIDSetting.value} wasn't deleted:\n${readableXml}`;
-                console.error(strangeMessage);
+                console.error(`This is strange. The XML part with the id ${xmlPartIDSetting.value} wasn't deleted:`, readableXml);
               }
             } else {
-              console.warn("Didn't find custom XML part to delete");
+              console.warn("Didn't find custom XML part to delete.");
             }
           });
         }
@@ -174,12 +170,12 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to add, query, edit, and delete a custom XML part in a document.</p>
           <p><b>Note</b>: For your production add-in, make sure to create and host your own XML schema.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <button id="add-custom-xml-part" class="ms-Button">
             <span class="ms-Button-label">Add XML part</span>
@@ -215,8 +211,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

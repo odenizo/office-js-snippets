@@ -26,15 +26,14 @@ script:
 
         async function paragraphAdded(event: Word.ParagraphAddedEventArgs) {
           await Word.run(async (context) => {
-            console.log(`${event.type} event detected. IDs of paragraphs that were added:`);
-            console.log(event.uniqueLocalIds);
+            console.log(`${event.type} event detected. IDs of paragraphs that were added:`, event.uniqueLocalIds);
           });
         }
 
         async function getParagraphById() {
           await Word.run(async (context) => {
             const paragraphId = $("#paragraph-id").val() as string;
-            const paragraph = context.document.getParagraphByUniqueLocalId(paragraphId);
+            const paragraph: Word.Paragraph = context.document.getParagraphByUniqueLocalId(paragraphId);
             paragraph.load();
             await paragraph.context.sync();
 
@@ -77,11 +76,11 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             This sample demonstrates how to use the onAdded event with paragraphs.
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <button id="register-event-handler" class="ms-Button">
             <span class="ms-Button-label">Register event handler</span>
@@ -118,8 +117,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

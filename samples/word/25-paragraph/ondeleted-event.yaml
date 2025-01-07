@@ -26,22 +26,20 @@ script:
 
         async function paragraphDeleted(event: Word.ParagraphDeletedEventArgs) {
           await Word.run(async (context) => {
-            console.log(`${event.type} event detected. IDs of paragraphs that were deleted:`);
-            console.log(event.uniqueLocalIds);
+            console.log(`${event.type} event detected. IDs of paragraphs that were deleted:`, event.uniqueLocalIds);
           });
         }
 
         async function deleteParagraph() {
           await Word.run(async (context) => {
-            const paragraphs = context.document.body.paragraphs;
+            const paragraphs: Word.ParagraphCollection = context.document.body.paragraphs;
             paragraphs.load("items");
             await context.sync();
 
             if (paragraphs.items.length == 0) {
               console.log("There are no paragraphs in this document.");
             } else {
-              console.log("Paragraph to be deleted:");
-              console.log(paragraphs.items[0]);
+              console.log("Paragraph to be deleted:", paragraphs.items[0]);
               paragraphs.items[0].delete();
               await context.sync();
             }
@@ -60,7 +58,7 @@ script:
 
         async function setup() {
           await Word.run(async (context) => {
-            const body = context.document.body;
+            const body: Word.Body = context.document.body;
             body.clear();
             body.insertParagraph("Paragraph 1", "End");
             body.insertParagraph("Paragraph 2", "End");
@@ -80,18 +78,18 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             This sample demonstrates how to use the onDeleted event with paragraphs.
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h3>Set up</h3>
             <button id="setup" class="ms-Button">
             <span class="ms-Button-label">Add paragraphs</span>
           </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <button id="register-event-handler" class="ms-Button">
             <span class="ms-Button-label">Register event handler</span>
@@ -121,8 +119,8 @@ libraries: |-
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

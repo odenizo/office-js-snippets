@@ -1,10 +1,10 @@
+order: 3
 id: word-tables-manage-custom-style
 name: Manage custom table style
 description: Shows how to manage primarily margins and alignments of a custom table style in the current document.
-author: OfficeDev
 host: WORD
 api_set:
-    WordApi: '1.8'
+    WordApiDesktop: '1.1'
 script:
     content: |
         $("#add-style").on("click", () => tryCatch(addStyle));
@@ -29,7 +29,7 @@ script:
           }
 
           await Word.run(async (context) => {
-            const style = context.document.getStyles().getByNameOrNullObject(newStyleName);
+            const style: Word.Style = context.document.getStyles().getByNameOrNullObject(newStyleName);
             style.load();
             await context.sync();
 
@@ -56,7 +56,7 @@ script:
           }
 
           await Word.run(async (context) => {
-            const style = context.document.getStyles().getByNameOrNullObject(styleName);
+            const style: Word.Style = context.document.getStyles().getByNameOrNullObject(styleName);
             style.load();
             await context.sync();
 
@@ -65,19 +65,18 @@ script:
             } else if (style.type != Word.StyleType.table) {
               console.warn(`The '${styleName}' style isn't a table style.`);
             } else {
-              const body = context.document.body;
+              const body: Word.Body = context.document.body;
               body.clear();
               const data = [
                 ["Tokyo", "Beijing", "Seattle"],
                 ["Apple", "Orange", "Pineapple"]
               ];
-              const table = body.insertTable(2, 3, "Start", data);
+              const table: Word.Table = body.insertTable(2, 3, "Start", data);
               table.style = style.nameLocal;
               table.styleFirstColumn = false;
               await context.sync();
 
-              console.log(`'${styleName}' style applied to first table.`);
-              console.log(style);
+              console.log(`'${styleName}' style applied to first table.`, style);
             }
           });
         }
@@ -93,7 +92,7 @@ script:
           }
 
           await Word.run(async (context) => {
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.load();
             await context.sync();
 
@@ -127,7 +126,7 @@ script:
             const alignment = $("#alignment")
               .val()
               .toString();
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.alignment = alignment as Word.Alignment;
             await context.sync();
 
@@ -149,7 +148,7 @@ script:
 
           await Word.run(async (context) => {
             const allowBreakAcrossPage = $("#allow-break-across-page").val() as string;
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.allowBreakAcrossPage = allowBreakAcrossPage === "true";
             await context.sync();
 
@@ -175,7 +174,7 @@ script:
                 .val()
                 .toString()
             );
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.topCellMargin = topCellMargin;
             await context.sync();
 
@@ -201,7 +200,7 @@ script:
                 .val()
                 .toString()
             );
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.bottomCellMargin = bottomCellMargin;
             await context.sync();
 
@@ -227,7 +226,7 @@ script:
                 .val()
                 .toString()
             );
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.leftCellMargin = leftCellMargin;
             await context.sync();
 
@@ -253,7 +252,7 @@ script:
                 .val()
                 .toString()
             );
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.rightCellMargin = rightCellMargin;
             await context.sync();
 
@@ -279,7 +278,7 @@ script:
                 .val()
                 .toString()
             );
-            const tableStyle = context.document.getStyles().getByName(styleName).tableStyle;
+            const tableStyle: Word.TableStyle = context.document.getStyles().getByName(styleName).tableStyle;
             tableStyle.cellSpacing = cellSpacing;
             await context.sync();
 
@@ -298,7 +297,7 @@ script:
           }
 
           await Word.run(async (context) => {
-            const style = context.document.getStyles().getByNameOrNullObject(styleName);
+            const style: Word.Style = context.document.getStyles().getByNameOrNullObject(styleName);
             style.load();
             await context.sync();
 
@@ -318,8 +317,7 @@ script:
               '{"styles":[{"baseStyle":"Default Paragraph Font","builtIn":false,"inUse":true,"linked":false,"nameLocal":"NewCharStyle","priority":2,"quickStyle":true,"type":"Character","unhideWhenUsed":false,"visibility":false,"paragraphFormat":null,"font":{"name":"DengXian Light","size":16.0,"bold":true,"italic":false,"color":"#F1A983","underline":"None","subscript":false,"superscript":true,"strikeThrough":true,"doubleStrikeThrough":false,"highlightColor":null,"hidden":false},"shading":{"backgroundPatternColor":"#FF0000"}},{"baseStyle":"Normal","builtIn":false,"inUse":true,"linked":false,"nextParagraphStyle":"NewParaStyle","nameLocal":"NewParaStyle","priority":1,"quickStyle":true,"type":"Paragraph","unhideWhenUsed":false,"visibility":false,"paragraphFormat":{"alignment":"Centered","firstLineIndent":0.0,"keepTogether":false,"keepWithNext":false,"leftIndent":72.0,"lineSpacing":18.0,"lineUnitAfter":0.0,"lineUnitBefore":0.0,"mirrorIndents":false,"outlineLevel":"OutlineLevelBodyText","rightIndent":72.0,"spaceAfter":30.0,"spaceBefore":30.0,"widowControl":true},"font":{"name":"DengXian","size":14.0,"bold":true,"italic":true,"color":"#8DD873","underline":"Single","subscript":false,"superscript":false,"strikeThrough":false,"doubleStrikeThrough":true,"highlightColor":null,"hidden":false},"shading":{"backgroundPatternColor":"#00FF00"}},{"baseStyle":"Table Normal","builtIn":false,"inUse":true,"linked":false,"nextParagraphStyle":"NewTableStyle","nameLocal":"NewTableStyle","priority":100,"type":"Table","unhideWhenUsed":false,"visibility":false,"paragraphFormat":{"alignment":"Left","firstLineIndent":0.0,"keepTogether":false,"keepWithNext":false,"leftIndent":0.0,"lineSpacing":12.0,"lineUnitAfter":0.0,"lineUnitBefore":0.0,"mirrorIndents":false,"outlineLevel":"OutlineLevelBodyText","rightIndent":0.0,"spaceAfter":0.0,"spaceBefore":0.0,"widowControl":true},"font":{"name":"DengXian","size":20.0,"bold":false,"italic":true,"color":"#D86DCB","underline":"None","subscript":false,"superscript":false,"strikeThrough":false,"doubleStrikeThrough":false,"highlightColor":null,"hidden":false},"tableStyle":{"allowBreakAcrossPage":true,"alignment":"Left","bottomCellMargin":0.0,"leftCellMargin":0.08,"rightCellMargin":0.08,"topCellMargin":0.0,"cellSpacing":0.0},"shading":{"backgroundPatternColor":"#60CAF3"}}]}';
             const styles = context.document.importStylesFromJson(str);
             await context.sync();
-            console.log("Styles imported from JSON:");
-            console.log(styles);
+            console.log("Styles imported from JSON:", styles);
           });
         }
 
@@ -334,14 +332,14 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample demonstrates how to manage a custom table style and use Document.importStylesFromJson.
             </p>
             <p><b>Important</b>: Some TableStyle properties are currently in preview. If this snippet doesn't work, try using Word
                 on a different platform.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <h4>Add a new table style</h4>
             <p>Name the style using letters. Can include digits. Examples: NewName, newname1</p>
@@ -365,7 +363,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h4>Update custom style</h4> <label class="msLabel">Alignment:</label>
             <select id="alignment">
                 <option>Centered</option>    
@@ -381,7 +379,7 @@ template:
               </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label style="msLabel">allowBreakAcrossPage:</label>
             <select id="allow-break-across-page">
               <option>false</option>    
@@ -393,7 +391,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label class="msLabel">Top cell margin:</label>
             <input id="top-cell-margin" type="text" />
             </br>
@@ -402,7 +400,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label class="msLabel">Bottom cell margin:</label>
             <input id="bottom-cell-margin" type="text" />
             <br>
@@ -411,7 +409,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label class="msLabel">Left cell margin:</label>
             <input id="left-cell-margin" type="text" />
             <br>
@@ -420,7 +418,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label class="msLabel">Right cell margin:</label>
             <input id="right-cell-margin" type="text" />
             <br>
@@ -429,7 +427,7 @@ template:
             </button>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <label class="msLabel">Cell spacing:</label>
             <input id="cell-spacing" type="text" />
             <br>
@@ -438,7 +436,7 @@ template:
             </button>
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h4>Delete custom style</h4>
             <label style="margin-left: 20px">Style name:</label>
             <input id="style-name-to-delete"/>
@@ -448,7 +446,7 @@ template:
             </button>
         </section>
 
-        <section class="setup ms-font-m">
+        <section class="ms-Fabric setup ms-font-m">
             <h4>Import styles from JSON string</h4>
             <button id="import-styles-from-json" class="ms-Button margin">
                     <span class="ms-Button-label">Import</span>
@@ -474,11 +472,11 @@ style:
         }
     language: css
 libraries: |
-    https://appsforoffice.microsoft.com/lib/beta/hosted/office.js
-    @types/office-js-preview
+    https://appsforoffice.microsoft.com/lib/1/hosted/office.js
+    @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

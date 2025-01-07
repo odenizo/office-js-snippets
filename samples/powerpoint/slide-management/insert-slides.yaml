@@ -4,7 +4,7 @@ name: Insert slides from other presentation
 description: Inserts slides from another PowerPoint file into the current presentation.
 host: POWERPOINT
 api_set:
-    PowerPointApi: '1.2'
+    PowerPointApi: '1.5'
 script:
     content: |
         $("#insert-all-slides").on("click", () => tryCatch(insertAllSlides));
@@ -39,34 +39,19 @@ script:
 
         async function insertAfterSelectedSlide() {
             await PowerPoint.run(async function(context) {
-                const selectedSlideID = await getSelectedSlideID();
-
-                context.presentation.insertSlidesFromBase64(chosenFileBase64, {
-                    formatting: PowerPoint.InsertSlideFormatting.useDestinationTheme,
-                    targetSlideId: selectedSlideID + "#"
-                });
+                // Get the ID of the first selected slide.
+                const presentation: PowerPoint.Presentation = context.presentation;
+                const selected: PowerPoint.Slide = presentation.getSelectedSlides().getItemAt(0);
+                selected.load("id");
                 await context.sync();
-            });
-        }
 
-        function getSelectedSlideID() {
-            // Wrap a call of one of the Common APIs in a Promise-returning
-            // function, so that it can be easily called within a run() function
-            // of an application-specific API.
-            return new OfficeExtension.Promise<string>(function(resolve, reject) {
-                Office.context.document.getSelectedDataAsync(Office.CoercionType.SlideRange, function(asyncResult) {
-                    try {
-                        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-                            reject(console.error(asyncResult.error.message));
-                        } else {
-                            const result = asyncResult.value as any;
-                            resolve(result.slides[0].id);
-                        }
-                    } 
-                    catch (error) {
-                        reject(console.log(error));
-                    }
-                });
+                // Insert the other presentation after the selected slide.
+                const insertOptions: PowerPoint.InsertSlideOptions = {
+                    formatting: PowerPoint.InsertSlideFormatting.useDestinationTheme,
+                    targetSlideId: selected.id
+                };
+                presentation.insertSlidesFromBase64(chosenFileBase64, insertOptions);
+                await context.sync();
             });
         }
 
@@ -83,11 +68,11 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to insert slides from another presentation into the current presentation.</p>
         </section>
 
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <p>
                 <ol>
@@ -128,8 +113,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

@@ -4,7 +4,7 @@ name: 'Get properties of selected messages (Message Compose, Message Read)'
 description: Gets the properties of multiple selected messages.
 host: OUTLOOK
 api_set:
-    Mailbox: '1.13'
+    Mailbox: '1.14'
 script:
     content: |
         Office.onReady(() => {
@@ -29,20 +29,23 @@ script:
 
             asyncResult.value.forEach((message) => {
               console.log(`Item ID: ${message.itemId}`);
+              console.log(`Conversation ID: ${message.conversationId}`);
+              console.log(`Internet message ID: ${message.internetMessageId}`);
               console.log(`Subject: ${message.subject}`);
               console.log(`Item type: ${message.itemType}`);
               console.log(`Item mode: ${message.itemMode}`);
+              console.log(`Has attachment: ${message.hasAttachment}`);
             });
           });
         }
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p>This sample shows how to get the properties of multiple selected messages.</p>
             <p><b>Required mode</b>: Message Compose, Message Read</p>
         </section>
-        <section class="samples ms-font-m">
+        <section class="ms-Fabric samples ms-font-m">
             <h3>Try it out</h3>
             <ol>
                 <li><p>Turn on the Reading Pane in Outlook. For guidance, see <a href="https://support.microsoft.com/office/2fd687ed-7fc4-4ae3-8eab-9f9b8c6d53f0" target="_blank">Use and configure the Reading Pane to preview messages</a>.</p></li>
@@ -69,8 +72,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js

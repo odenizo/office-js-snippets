@@ -1,7 +1,7 @@
 order: 3
 id: powerpoint-basics-get-slide-metadata
 name: Get slide metadata
-description: 'Gets the title, index, and ID of the selected slide(s).'
+description: 'Gets the title, index, and ID of the selected slides.'
 author: OfficeDev
 host: POWERPOINT
 api_set: {}
@@ -23,7 +23,7 @@ script:
     language: typescript
 template:
     content: |-
-        <section class="ms-font-m">
+        <section class="ms-Fabric ms-font-m">
             <p class="ms-font-m">Demonstrates how to get slide metadata.</p>
             <p class="ms-font-m">Select one or more slides and click <b>Get slide metadata</b> to get the ID, title, and index of the slide(s).</p>
         </section>
@@ -49,8 +49,8 @@ libraries: |
     https://appsforoffice.microsoft.com/lib/1/hosted/office.js
     @types/office-js
 
-    office-ui-fabric-js@1.4.0/dist/css/fabric.min.css
-    office-ui-fabric-js@1.4.0/dist/css/fabric.components.min.css
+    office-ui-fabric-core@11.1.0/dist/css/fabric.min.css
+    office-ui-fabric-js@1.5.0/dist/css/fabric.components.min.css
 
     core-js@2.4.1/client/core.min.js
     @types/core-js
